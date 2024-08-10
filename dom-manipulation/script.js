@@ -14,7 +14,7 @@ const showRandomQuote = () => {
     quoteDisplay.textContent = `${quotes.text} - ${quotes.category}`;
 }
 
-const addQuote = () => {
+const createAddQuoteForm = () => {
     const newQuote = document.getElementById('newQuoteText').value
     const quoteCategory = document.getElementById('newQuoteCategory').value
     if (newQuote && quoteCategory) {
