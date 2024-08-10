@@ -7,7 +7,7 @@ const quotes = [
     { text: "Success is not final, failure is not fatal: It is the courage to continue that counts.", category: "Perseverance" }
 ];
 
-const showRandomQuote = () => {
+const displayRandomQuote = () => {
     const randomIndex = Math.floor(Math.random() * quotes.length);
     const randomQuote = quotes[randomIndex];
     const quoteDisplay = document.getElementById('quoteDisplay')
