@@ -10,20 +10,21 @@ const quotes = [
 const showRandomQuote = () => {
     const randomIndex = Math.floor(Math.random() * quotes.length);
     const randomQuote = quotes[randomIndex];
-    const quoteDisplay = document.getElementById('quoteDisplay')
+    const quoteDisplay = document.getElementById('quoteDisplay');
     quoteDisplay.innerHTML = `${randomQuote.text} - ${randomQuote.category}`;
 }
 
 const createAddQuoteForm = () => {
     const newQuote = document.getElementById('newQuoteText').value
     const quoteCategory = document.getElementById('newQuoteCategory').value
-    if (newQuote && quoteCategory) {
-        quotes.push({ text: newQuote, category: quoteCategory });
-        newQuote.textContent = '';
-        quoteCategory.textContent = '';
-        alert('New Quote Added')
-    } else {
-        alert('Please Enter a quote and its respective category')
+    if (!newQuote && !quoteCategory) {
+        alert("Please add a new quote and its category")
+        return;
     }
-
+    const obj = document.createElement('object');
+    obj = ({ text: newQuote, category: quoteCategory })
+    const quoteDisplay = document.getElementById('quoteDisplay');
+    quoteDisplay.appendChild(obj);
 }
+
+document.getElementById('newQuote').addEventListener('click', showRandomQuote);
