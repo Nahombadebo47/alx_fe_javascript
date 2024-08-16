@@ -135,6 +135,73 @@ const filterQuotes = () => {
 }
 
 
+async function fetchQuotesFromServer() {
+    try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+        const serverQuotes = await response.json();
+        return serverQuotes.map(post => ({
+            text: post.title,
+            category: "Server" // Simulate category since JSONPlaceholder doesn't have one
+        }));
+    } catch (error) {
+        console.error('Error fetching quotes from server:', error);
+        return [];
+    }
+}
+
+
+async function postQuoteToServer(quote) {
+    try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+            method: 'POST',
+            body: JSON.stringify(quote),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const newQuote = await response.json();
+        console.log('Quote successfully posted to server:', newQuote);
+    } catch (error) {
+        console.error('Error posting quote to server:', error);
+    }
+}
+
+
+setInterval(async () => {
+    const serverQuotes = await fetchQuotesFromServer();
+    mergeServerQuotesWithLocal(serverQuotes);
+}, 60000); // Fetch new data every 60 seconds
+
+
+function mergeServerQuotesWithLocal(serverQuotes) {
+    const localQuotes = JSON.parse(localStorage.getItem('quotes')) || [];
+    const mergedQuotes = [...localQuotes];
+
+    serverQuotes.forEach(serverQuote => {
+        const existsInLocal = localQuotes.some(localQuote => localQuote.text === serverQuote.text);
+        if (!existsInLocal) {
+            mergedQuotes.push(serverQuote);
+        }
+    });
+
+    localStorage.setItem('quotes', JSON.stringify(mergedQuotes));
+    populateCategories(); // Refresh categories if new ones were added
+    filterQuotes(); // Apply any current filters to the updated list
+}
+
+
+function notifyUser(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        document.body.removeChild(notification);
+    }, 3000); // Remove the notification after 3 seconds
+}
+notifyUser('New quotes synced from the server.');
+
+
+
 
 
 loadLastQuote();
