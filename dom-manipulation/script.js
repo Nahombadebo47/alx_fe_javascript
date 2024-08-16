@@ -198,7 +198,7 @@ function notifyUser(message) {
         document.body.removeChild(notification);
     }, 3000); // Remove the notification after 3 seconds
 }
-notifyUser('New quotes synced from the server.');
+notifyUser('Quotes synced with server!');
 
 
 
