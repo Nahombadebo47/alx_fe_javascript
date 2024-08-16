@@ -165,7 +165,7 @@ async function postQuoteToServer(quote) {
 }
 
 
-setInterval(async () => {
+setInterval(async function syncQuotes() {
     const serverQuotes = await fetchQuotesFromServer();
     mergeServerQuotesWithLocal(serverQuotes);
 }, 60000); // Fetch new data every 60 seconds
